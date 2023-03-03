@@ -1,0 +1,10 @@
+/INFO/
+/.idea/
+/123.py
+/for_add_data.py
+/venv/
+/.vscode/
+*.env*
+/.vscode/
+/my_travel_site/.idea/
+/my_travel_site/travelsite_cache/

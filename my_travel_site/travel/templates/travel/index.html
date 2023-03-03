@@ -1,0 +1,99 @@
+{% extends 'travel/base.html' %}
+{% load static %}
+
+{% block head %}
+<div class="bg-video mt-3">
+    <video src="{% static 'travel/files/bg-video.mp4' %}" type="video/mp4" autoplay muted loop></video>
+    <div class="effect"></div>
+    <div class="video-text">
+        <p class="text-center">Путешествуй с нами :)</p>
+    </div>
+</div>
+
+<h1 class="text-center mt-5 my-title">Авторские туры</h1>
+{% endblock head %}
+
+{% block main %}
+<div class="container-fluid">
+    <div class="row">
+        {% for t in tours %}
+        <article class="col-12 p-0 mt-3">
+            <div class="card my-bg-card m-0 p-0">
+                <h2 class="card-title text-center mt-1"><b>{{t.title}}</b></h3>
+                <div class="row mx-0">
+                    <div class="col-lg-6 col-md-12 ps-2 pb-2">
+                        {% if t.photo %}
+                            <img src="{{t.photo.url}}" class="w-100" alt="...">
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="card-body">
+                            <a href="{{ t.get_absolute_url }}" style="text-decoration: none; color: black">
+                                <p class="card-text">{{t.content|linebreaks|truncatewords:30}}</p>
+                            </a>
+                            <p>Отправление: {{t.dep}}</p>
+                            <p>Дата публикации: {{t.time_update|date:"d-m-Y H:i:s"}}</p>
+                            <a href="{{ t.get_absolute_url }}" class="btn btn-outline-success btn-lg">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="card-body py-1">
+                    <p style="float: left">Отправление: {{t.dep}}</p>
+                    <p style="float: right">Дата публикации: {{t.time_update|date:"d-m-Y H:i:s"}}</p>
+                </div> -->
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</div>
+{% endblock main %}
+
+
+
+
+
+
+<!--
+{% block content %}
+<h1>{{title}}</h1>
+Содержимое главной страницы
+
+<ul>
+    {% for p in posts %}
+    <li>
+              <h2>{{p.title}}</h2>
+              {{p.content}}</p>
+              <hr>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
+-->
+
+
+<!-- <div class="container-fluid">
+    <div class="row">
+        {% for t in tours %}
+        <div class="col-12 p-0 mt-3">
+            <div class="card my-bg-card">
+                {% if t.photo %}              
+                    <img src="{{t.photo.url}}" class="" alt="...">
+                {% endif %}
+                <div class="card-body">
+                    <a href="{{ t.get_absolute_url }}" style="text-decoration: none; color: black">
+                        <h2 class="card-title"><b>{{t.title}}</b></h3>
+                        <p class="card-text">{{t.content|linebreaks|truncatewords:30}}</p>
+                    </a>
+                    <a href="{{ t.get_absolute_url }}" class="btn btn-outline-success btn-lg">Подробнее</a>
+                </div>
+                <div class="card-body py-1"> -->
+                    <!-- style="background-color: lightgray;" -->
+                    <!-- <p style="float: left">Отправление: {{t.dep}}</p>
+                    <p style="float: right">Дата публикации: {{t.time_update|date:"d-m-Y H:i:s"}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div> -->

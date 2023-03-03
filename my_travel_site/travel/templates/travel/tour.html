@@ -1,0 +1,24 @@
+{% extends 'travel/base.html' %}
+
+{% block head %}
+    <h1 class="text-center mt-5 my-title">{{tour.title}}</h1>
+{% endblock head %}
+
+{% block main %}
+    <div class="card my-bg-card">
+        {% if tour.photo %}              
+        <img src="{{tour.photo.url}}" class="p-3" alt="...">
+        {% endif %}
+        <div class="card-body">
+            <a href="{{tour.get_absolute_url}}" style="text-decoration: none; color: black">
+                <h2 class="card-title my-title">{{tour.title}}</h3>
+                <p class="card-text">{{tour.content|linebreaks}}</p>
+            </a>
+        </div>
+        <div class="card-body py-1">
+            <!-- style="background-color: lightgray;" -->
+            <p style="float: left">Отправление: {{tour.dep}}</p>
+            <p style="float: right">Дата публикации: {{tour.time_update|date:"d-m-Y H:i:s"}}</p>
+        </div>
+    </div>
+{% endblock main %}

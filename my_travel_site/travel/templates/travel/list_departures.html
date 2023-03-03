@@ -1,0 +1,11 @@
+{% for d in departures %}
+<li class="nav-item">
+    {% if d.pk == departure_selected %}
+    <a class="nav-link active my-hover" aria-current="page"
+       href="{{d.get_absolute_url}}">{{d.name}}</a>
+    {% else %}
+    <a class="nav-link my-hover" aria-current="page"
+       href="{{d.get_absolute_url}}">{{d.name}}</a>
+    {% endif %}
+</li>
+{% endfor %}

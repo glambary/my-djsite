@@ -1,0 +1,229 @@
+{% load static %}
+<!-- {% load travel_tags %} -->
+
+
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="{% static 'travel/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'travel/css/my-travel.css' %}">
+    <link rel="stylesheet" href="{% static 'travel/css/bg-video.css' %}">
+    <link rel="stylesheet" href="{% static 'travel/css/animation.css' %}">
+    <link rel="stylesheet" href="{% static 'travel/css/window.css' %}">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'travel/images/icon_of_tab/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'travel/images/icon_of_tab/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'travel/images/icon_of_tab/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'travel/images/icon_of_tab/site.webmanifest' %}">
+</head>
+
+<body class="container mt-3 p-0">
+    <!-- <div class="container mt-3 p-0"> -->
+    <header>
+        <!-- <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark"> -->
+
+        <!-- вторая NAV -->
+        <nav class="navbar navbar-expand-lg my-bg">
+            <div class="container-fluid">
+                <!-- ссылка + лого -->
+                <a class="navbar-brand my-hover" href="{% url 'home' %}">
+                    <img src="{% static 'travel/images/logo3.png' %}" alt="..." class="my-images">
+                </a>
+
+                <!-- будерброд -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- главное меню -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <!-- Главная страница -->
+                        {% if departure_selected == 0 %}
+                        <a class="nav-link active my-hover" aria-current="page" href="{% url 'home' %}">Главная
+                            страница</a>
+                        {% else %}
+                        <a class="nav-link my-hover" aria-current="page" href="{% url 'home' %}">Главная
+                            страница</a>
+                        {% endif %}
+
+                        <!-- Страницы вылета -->
+                        <!-- {% get_departures as departures%} -->
+                        <!-- или второй вариант использование inclusion tags – включающие теги -->
+                        <!-- {% show_departures departure_selected %} -->
+                        {% for d in departuress %}
+                        {% if d.travel__count > 0 %}
+                            <li class="nav-item">
+                                {% if departure_selected == d.slug %}
+                                <a class="nav-link active my-hover" aria-current="page"
+                                    href="{{d.get_absolute_url}}">{{d.name}}</a>
+                                {% else %}
+                                <a class="nav-link my-hover" aria-current="page"
+                                    href="{{d.get_absolute_url}}">{{d.name}}</a>
+                                {% endif %}
+                            </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                    <!-- продолжение главного меню справа -->
+                    <div class="d-flex">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            {% for m in menu %}
+                            <li>
+                                <a class="nav-link my-hover" aria-current="page"
+                                    href="{% url m.url_name %}">{{m.title}}</a>
+                            </li>
+                            {% endfor %}
+
+                            <!-- Кнопки работы с ЛК -->
+                            {% if request.user.is_authenticated %}
+                                <li class="nav-link ms-lg-3" style="color: black;">{{user.username}}</li>
+                                <li>
+                                    <a class="nav-link my-hover" aria-current="page"
+                                    href="{% url 'logout' %}">Выйти</a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a class="nav-link my-hover ms-lg-3" aria-current="page"
+                                        href="{% url 'register' %}">Регистрация</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link my-hover" aria-current="page" href="{% url 'login' %}">Войти</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        {% for mh in menu_hidden %}
+        <a class="nav-link my-hover" style="display: inline;" aria-current="page"
+            href="{% url mh.url_name %}">{{mh.title}}</a>
+        {% endfor %}
+    </header>
+
+
+    <main>
+        {% block head %}
+        <h1 class="text-center mt-5 my-title">{{title}}</h1>
+        {% endblock head %}
+        
+        
+        {% block main %}
+        {% endblock main %}
+
+        <!-- пагинация -->
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="Page navigation example mt-3" class="mt-3">
+            <ul class="pagination d-flex justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{page_obj.previous_page_number}}">Предыдущая</a>
+                </li>
+                {% endif %}
+                {% for p in paginator.page_range %}
+                {% if p == page_obj.number %}
+                <li class="page-item active"><a class="page-link" href="?page={{p}}">{{p}}</a></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{p}}">{{p}}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{page_obj.next_page_number}}">Следущая</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+
+
+        {% block foot %}
+            <div class="row">
+                <div class="col-lg-4 col-0"></div>
+                <div class="col-lg-4 col-8 mt-4 d-flex justify-content-around">
+                    <a href="https://www.youtube.com/channel/UCc2JoI_ysveGTjLOF4tuGqA" target="_blank">
+                        <img src="{% static 'travel/images/youtube.png' %}" alt="..." class="my-images">
+                    </a>
+
+                    <a href="#exampleModal" data-bs-toggle="modal" id="phone">
+                        <img src="{% static 'travel/images/phone.png' %}" class="call-anim my-images" alt="...">
+                    </a>
+                
+                    <a href="https://t.me/HSergey" target="_blank">
+                        <img src="{% static 'travel/images/tg.png' %}" class="my-images" alt="...">
+                    </a>
+                </div>
+
+                <div class="col-lg-4 col-4 mt-4 d-flex justify-content-end">
+                    <a href="#">
+                        <img src="{% static 'travel/images/button-up.png' %}" alt="..." class="my-images">
+                    </a>
+                </div>
+            </div>
+        {% endblock foot %}
+    </main>
+
+
+    <footer>
+        <!-- <nav class="navbar navbar-expand-lg my-bg">
+            <div class="container-fluid">
+
+            </div>
+        </nav> -->
+        <div class="container-fluid my-bg mt-3">
+            <p class="my-text">© 2023 Частичное или полное копирование информации с данного сайта для
+                распространения на других
+                ресурсах, в том числе и бумажных, строго запрещено. Все тексты и изображения являются собственностью
+                сайта
+            </p>
+        </div>
+    </footer>
+
+
+    <!-- Модальное окно картинки Phone -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content my-bg">
+                <h3 class="text-center mt-3">Контакты</h5>
+                <hr class="mt-1">
+                <div class="modal-body">
+                <p class="text-center">Хотите предложить мне работу или поговорить о том самом Питоне? <br>
+                    Звоните!:)<br>
+                    +7-905-285-77-**</p>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'travel/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script> -->
+</body>
+
+</html>
+
+
+
+<!-- 
+    {% block mainmenu %}
+    <ul>
+        {% for m in menu %}
+        <li>{{m}}</li>
+        {% endfor %}
+    </ul>
+    {% endblock mainmenu %}
+
+    {% block content %}
+    {% endblock content%} -->

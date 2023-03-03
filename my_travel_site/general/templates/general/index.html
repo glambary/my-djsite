@@ -1,0 +1,21 @@
+{% extends 'general/base.html' %}
+
+
+{% block main %}
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="card form-wrap">
+            <h5 class="my-3">The best website in the world:)</h5>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item text-center"><a class="" target=_blank href="{% url 'home' %}">раздел Travel</a></li>
+              <li class="list-group-item text-center"><a class="" target=_blank href="{% url 'exchange_home' %}">раздел Exchange</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+{% endblock main %}

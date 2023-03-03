@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Neucha&family=Play&display=swap');
+
+
+:root {
+    --color1: Black;
+    --color2: rgba(225, 255, 255);
+    --color3: rgba(180, 255, 255);
+}
+
+body {
+    font-size: 1.15rem;
+    font-family: 'Play', sans-serif; 
+    width: 100%;
+    height: 100vh;
+    background-image: url('../images/world-curr.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+.form-wrap {
+    border-radius: 14px;
+    border: 3px solid black;
+    box-shadow: 0px 0px 10px 10px var(--color3);
+}
+
+.form-label {
+    display: inline-block;
+    min-width: 450px;
+    vertical-align: middle;
+}
+
+.form-input {
+    width: 300px;
+    font-size: 16px;
+}
+
+.object-center {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+.my-hover{
+    border-radius:1rem;
+    -webkit-border-radius:1rem;
+    -moz-border-radius:1rem;
+    -khtml-border-radius:1rem;
+    }
+    
+button:hover {
+    background: var(--color3);
+}
+
+
+
+@media (max-width: 500px) {
+    .form-label {
+        min-width: auto;
+    }
+    
+    body {
+        height: auto;
+    }
+}
